@@ -12,5 +12,8 @@
   "engines": {
     "node": "8",
     "npm": "5"
+  },
+  "scripts": {
+    "lint": "eslint ./"
   }
 }
