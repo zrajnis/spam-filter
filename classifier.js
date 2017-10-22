@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const fs = require('fs')
+const path = require('path')
 
 let classifier = require('./dataSet')
 
@@ -18,7 +19,7 @@ classifier.ftrProb = function (ftr, cat) {
 classifier.generate = function () {
   this.init()
 
-  const text = fs.readFileSync('./dataSet.txt', 'utf-8').split(/\n/)
+  const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
   const formatted = _.each(text, function(line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
@@ -29,7 +30,7 @@ classifier.generate = function () {
   const newText = `module.exports = ${JSON.stringify(classifier, null, 2)}`
 
   try {
-    fs.writeFileSync('dataSet.js', newText)
+    fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), newText)
     this.init(require('./dataSet'))
     console.log('Generated data set as dataSet.js.');
     return
@@ -83,7 +84,7 @@ classifier.save = function () {
   const text = `module.exports = ${JSON.stringify(classifier, null, 2)}`
 
   try {
-    fs.writeFileSync('dataSet.js', text)
+    fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), text)
     this.init(require('./dataSet'))
     console.log('Data set saved.');
     return

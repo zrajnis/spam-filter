@@ -11,7 +11,7 @@ To set up the filter you have to :
 
 ## Usage:
 ```
-const filter = require('spam-filter/naiveBayes')
+const filter = require('spam-filter')
 
 const spamMsg = 'call fox tv for money today!'
 
