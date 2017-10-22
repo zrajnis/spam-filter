@@ -17,6 +17,6 @@ module.exports = {
     return naiveBayes.setThreshold(cat, t)
   },
   train: function (item, cat) {
-    return naiveBayes.train(item, cat, true)
+    return naiveBayes.train(item, cat)
   },
 }

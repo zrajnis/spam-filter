@@ -23,7 +23,7 @@ classifier.generate = function () {
   const formatted = _.each(text, function(line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
-      classifier.train(splitLine[1], splitLine[0])
+      classifier.train(splitLine[1], splitLine[0], false)
     }
   })
 
@@ -32,8 +32,8 @@ classifier.generate = function () {
   try {
     fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), newText)
     this.init(require('./dataSet'))
-    console.log('Generated data set as dataSet.js.');
-    return
+    console.log('Generated data set as dataSet.js.')
+    return this
   } catch (e) {
     return console.log(e)
   }
@@ -55,13 +55,14 @@ classifier.getThreshold = function (cat) {
 
 classifier.incCat = function (cat) {
   this.cc[cat] = this.cc[cat] ? this.cc[cat] + 1 : 1
+  return this
 }
 
 classifier.init = function (newClassifier) {
   return _.assign(classifier, {
       fc: newClassifier ? newClassifier.fc : {},
-      cc: newClassifier ? newClassifier.cc :{},
-      thresholds: {},
+      cc: newClassifier ? newClassifier.cc : {},
+      thresholds:  newClassifier ? newClassifier.thresholds : {},
     })
 }
 
@@ -70,6 +71,7 @@ classifier.incFtr = function (ftr,cat) {
     this.fc[ftr] = {}
   }
   this.fc[ftr][cat] = this.fc[ftr][cat] ? this.fc[ftr][cat] + 1 : 1
+  return this
 }
 
 classifier.save = function () {
@@ -78,8 +80,8 @@ classifier.save = function () {
   try {
     fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), text)
     this.init(require('./dataSet'))
-    console.log('Data set saved.');
-    return
+    console.log('Data set saved.')
+    return this
   } catch (e) {
     return console.log(e);
   }
@@ -88,6 +90,7 @@ classifier.save = function () {
 
 classifier.setThreshold = function (cat, t) {
   this.thresholds[cat] = t
+  return this
 }
 
 classifier.totalCount = function () {
@@ -96,16 +99,16 @@ classifier.totalCount = function () {
   }, 0)
 }
 
-classifier.train = function (item, cat, saveFlag = false) {
+classifier.train = function (item, cat, saveFlag = true) {
   _.map(this.getFeatures(item), function (feature) {
     return classifier.incFtr(feature, cat)
   })
 
   this.incCat(cat)
-
   if (saveFlag) {
     this.save()
   }
+  return this
 }
 
 classifier.weightedProb = function (ftr, cat, weight = 1, assumedProb = 0.5) {

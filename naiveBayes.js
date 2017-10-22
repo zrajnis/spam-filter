@@ -1,6 +1,6 @@
 const _ = require('lodash')
 
-const naiveBayes = _.assign({}, require('./classifier'))
+const naiveBayes = require('./classifier')
 
 naiveBayes.classify = function (item, def = 'none') {
   let best = 'none'
