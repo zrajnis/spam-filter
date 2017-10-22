@@ -10,6 +10,12 @@ module.exports = {
   generate: function () {
     return naiveBayes.generate()
   },
+  getThreshold: function (cat) {
+    return naiveBayes.getThreshold(cat)
+  },
+  setThreshold: function (cat, t) {
+    return naiveBayes.setThreshold(cat, t)
+  },
   train: function (item, cat) {
     return naiveBayes.train(item, cat, true)
   },

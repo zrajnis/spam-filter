@@ -72,14 +72,6 @@ classifier.incFtr = function (ftr,cat) {
   this.fc[ftr][cat] = this.fc[ftr][cat] ? this.fc[ftr][cat] + 1 : 1
 }
 
-classifier.sampleTrain = function () {
-  this.train('Nobody owns the water.', 'good')
-  this.train('the quick rabbit jumps123 5213 fences', 'good')
-  this.train('buy pharmaceuticals now', 'bad')
-  this.train('make quick money at the online casino', 'bad')
-  this.train('the quick brown fox jumps', 'good')
-}
-
 classifier.save = function () {
   const text = `module.exports = ${JSON.stringify(classifier, null, 2)}`
 
