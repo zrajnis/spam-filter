@@ -20,7 +20,7 @@ classifier.generate = function () {
   this.init()
 
   const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
-  const formatted = _.each(text, function(line) {
+  const formatted = _.each(text, function (line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
       classifier.train(splitLine[1], splitLine[0], false)
@@ -60,10 +60,10 @@ classifier.incCat = function (cat) {
 
 classifier.init = function (newClassifier) {
   return _.assign(classifier, {
-      fc: newClassifier ? newClassifier.fc : {},
-      cc: newClassifier ? newClassifier.cc : {},
-      thresholds:  newClassifier ? newClassifier.thresholds : {},
-    })
+    fc: newClassifier ? newClassifier.fc : {},
+    cc: newClassifier ? newClassifier.cc : {},
+    thresholds:  newClassifier ? newClassifier.thresholds : {},
+  })
 }
 
 classifier.incFtr = function (ftr,cat) {
@@ -83,7 +83,7 @@ classifier.save = function () {
     console.log('Data set saved.')
     return this
   } catch (e) {
-    return console.log(e);
+    return console.log(e)
   }
 
 }
