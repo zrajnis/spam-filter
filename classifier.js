@@ -103,12 +103,16 @@ classifier.totalCount = function () {
   }, 0)
 }
 
-classifier.train = function (item, cat) {
+classifier.train = function (item, cat, saveFlag = false) {
   _.map(this.getFeatures(item), function (feature) {
     return classifier.incFtr(feature, cat)
   })
 
   this.incCat(cat)
+
+  if (saveFlag) {
+    this.save()
+  }
 }
 
 classifier.weightedProb = function (ftr, cat, weight = 1, assumedProb = 0.5) {

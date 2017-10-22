@@ -2,8 +2,8 @@ const _ = require('lodash')
 
 const naiveBayes = _.assign({}, require('./classifier'))
 
-naiveBayes.classify = function (item, def = 'None') {
-  let best = 'None'
+naiveBayes.classify = function (item, def = 'none') {
+  let best = 'none'
   let max = 0
   const categories = this.getCategories()
   const probs = {}
@@ -36,7 +36,16 @@ naiveBayes.prob = function (item, cat) {
 }
 
 module.exports = {
-  classify: naiveBayes.classify,
-  sampleTrain: naiveBayes.sampleTrain,
-  train: naiveBayes.train,
+  classify: function (item) {
+    return naiveBayes.classify(item)
+  },
+  isSpam: function (item) {
+    return naiveBayes.classify(item) === 'bad'
+  },
+  generate: function () {
+    return naiveBayes.generate()
+  },
+  train: function (item, cat) {
+    return naiveBayes.train(item, cat, true)
+  },
 }
