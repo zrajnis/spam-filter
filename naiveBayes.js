@@ -35,19 +35,6 @@ naiveBayes.prob = function (item, cat) {
   return docProb * catProb
 }
 
-naiveBayes.setThreshold('bad', 3)
-naiveBayes.sampleTrain()
-console.log('threshold for bad is ' + naiveBayes.getThreshold('bad'))
-console.log('good quick ' + naiveBayes.ftrCount('quick', 'good'))
-console.log('bad quick ' + naiveBayes.ftrCount('quick', 'bad'))
-console.log('bayes prob for quick being in good category: ' + naiveBayes.prob('quick', 'good'))
-console.log('bayes prob for quick being in bad category: ' + naiveBayes.prob('quick', 'bad'))
-console.log('classify quick: ' + naiveBayes.classify('quick'))
-console.log('bayes prob for quick money being in good category: ' + naiveBayes.prob('quick money', 'good'))
-console.log('bayes prob for quick money being in bad category: ' + naiveBayes.prob('quick money', 'bad'))
-console.log('classify quick money: ' + naiveBayes.classify('quick money'))
-
-
 module.exports = {
   classify: naiveBayes.classify,
   sampleTrain: naiveBayes.sampleTrain,

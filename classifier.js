@@ -1,13 +1,7 @@
 const _ = require('lodash')
 const fs = require('fs')
 
-const classifier = {
-  fc: {},
-  cc: {},
-  thresholds: {},
-}
-
-//TODO: introduce db
+let classifier = require('./dataSet')
 
 classifier.catCount = function (cat) {
   return this.cc[cat] ? this.cc[cat] : 0
@@ -21,12 +15,35 @@ classifier.ftrProb = function (ftr, cat) {
   return this.catCount(cat) === 0 ? 0 : this.ftrCount(ftr, cat) / this.catCount(cat)
 }
 
+classifier.generate = function () {
+  this.init()
+
+  const text = fs.readFileSync('./dataSet.txt', 'utf-8').split(/\n/)
+  const formatted = _.each(text, function(line) {
+    const splitLine = line.split(/\t/)
+    if (splitLine[0] && splitLine[1]) {
+      classifier.train(splitLine[1], splitLine[0])
+    }
+  })
+
+  const newText = `module.exports = ${JSON.stringify(classifier, null, 2)}`
+
+  try {
+    fs.writeFileSync('dataSet.js', newText)
+    this.init(require('./dataSet'))
+    console.log('Generated data set as dataSet.js.');
+    return
+  } catch (e) {
+    return console.log(e)
+  }
+}
+
 classifier.getCategories = function () {
   return _.keys(this.cc)
 }
 
 classifier.getFeatures = function (text) {
-  const words = _.map(text.match(/[a-z'\-]+/gi), _.toLower)
+  const words = _.map(text.match(/[a-z0-9\-]+/gi), _.toLower)
 
   return words
 }
@@ -35,12 +52,16 @@ classifier.getThreshold = function (cat) {
   return this.thresholds[cat] ? this.thresholds[cat] : 1
 }
 
-/*function getWordsFromDoc (doc) {
-  const text = fs.readFileSync('./mytext.txt", "utf-8');
-}*/
-
 classifier.incCat = function (cat) {
   this.cc[cat] = this.cc[cat] ? this.cc[cat] + 1 : 1
+}
+
+classifier.init = function (newClassifier) {
+  return _.assign(classifier, {
+      fc: newClassifier ? newClassifier.fc : {},
+      cc: newClassifier ? newClassifier.cc :{},
+      thresholds: {},
+    })
 }
 
 classifier.incFtr = function (ftr,cat) {
@@ -52,10 +73,24 @@ classifier.incFtr = function (ftr,cat) {
 
 classifier.sampleTrain = function () {
   this.train('Nobody owns the water.', 'good')
-  this.train('the quick rabbit jumps fences', 'good')
+  this.train('the quick rabbit jumps123 5213 fences', 'good')
   this.train('buy pharmaceuticals now', 'bad')
   this.train('make quick money at the online casino', 'bad')
   this.train('the quick brown fox jumps', 'good')
+}
+
+classifier.save = function () {
+  const text = `module.exports = ${JSON.stringify(classifier, null, 2)}`
+
+  try {
+    fs.writeFileSync('dataSet.js', text)
+    this.init(require('./dataSet'))
+    console.log('Data set saved.');
+    return
+  } catch (e) {
+    return console.log(e);
+  }
+
 }
 
 classifier.setThreshold = function (cat, t) {
