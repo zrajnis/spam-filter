@@ -21,16 +21,24 @@ filter.isSpam(spamMsg) //true
 //  Returns exact category ('good' or 'bad'), or 'none' if string can't be categorized
 filter.classify(spamMsg) // 'bad'
 
-// Generates javaScript object with 5500 text messages categorized, object exists by default
-// Use this method only if you have trained the filter and want to reset it to default
-filter.generate()
-
-// Train the filter, use category 'good' for non-spam and 'bad' for spam
-filter.train(spamMsg, 'bad')
-
 // Set threshold for a category
 filter.setThreshold('bad', 2)
 
 // Get threshold for a category
 filter.getThreshold('bad') // 2
+
+// Generates javaScript object with 5500 text messages categorized, object exists by default
+// Use this method only if you have trained the filter and want to reset it to default
+filter.generate()
+
+// Empty the classifier data
+filter.empty()
+
+// Train the filter, use category 'good' for non-spam and 'bad' for spam
+filter.train(spamMsg, 'bad')
+
+// Train the filter with your own set
+// Make sure categories remain 'good' and 'bad' in order for .isSpam() method to work
+const arr = [['Lorem ipsum dolor sit amet', 'good'], ['Ius eu impedit repudiandae', 'bad']]
+filter.trainSet(arr)
 ```

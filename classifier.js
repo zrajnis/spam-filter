@@ -8,6 +8,11 @@ classifier.catCount = function (cat) {
   return this.cc[cat] ? this.cc[cat] : 0
 }
 
+classifier.empty = function () {
+  this.init().save()
+  return this
+}
+
 classifier.ftrCount = function (ftr, cat) {
   return this.fc[ftr] && this.fc[ftr][cat] ? this.fc[ftr][cat] : 0
 }
@@ -27,16 +32,8 @@ classifier.generate = function () {
     }
   })
 
-  const newText = `module.exports = ${JSON.stringify(classifier, null, 2)}`
-
-  try {
-    fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), newText)
-    this.init(require('./dataSet'))
-    console.log('Generated data set as dataSet.js.')
-    return this
-  } catch (e) {
-    return console.log(e)
-  }
+  this.save()
+  return this
 }
 
 classifier.getCategories = function () {
@@ -75,17 +72,15 @@ classifier.incFtr = function (ftr,cat) {
 }
 
 classifier.save = function () {
-  const text = `module.exports = ${JSON.stringify(classifier, null, 2)}`
+  const newText = `module.exports = ${JSON.stringify(this, null, 2)}`
 
   try {
-    fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), text)
+    fs.writeFileSync(path.resolve(__dirname, 'dataSet.js'), newText)
     this.init(require('./dataSet'))
-    console.log('Data set saved.')
     return this
   } catch (e) {
     return console.log(e)
   }
-
 }
 
 classifier.setThreshold = function (cat, t) {
@@ -108,6 +103,15 @@ classifier.train = function (item, cat, saveFlag = true) {
   if (saveFlag) {
     this.save()
   }
+  return this
+}
+
+classifier.trainSet = function (arr) {
+  _.each(arr, function (arrItem) {
+    return classifier.train(arrItem[0], arrItem[1], false)
+  })
+
+  this.save()
   return this
 }
 

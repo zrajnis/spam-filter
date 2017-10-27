@@ -4,6 +4,9 @@ module.exports = {
   classify: function (item) {
     return naiveBayes.classify(item)
   },
+  empty: function () {
+    return naiveBayes.empty()
+  },
   isSpam: function (item) {
     return naiveBayes.classify(item) === 'bad'
   },
@@ -18,5 +21,8 @@ module.exports = {
   },
   train: function (item, cat) {
     return naiveBayes.train(item, cat)
+  },
+  trainSet: function (arr) {
+    return naiveBayes.trainSet(arr)
   },
 }
