@@ -16,7 +16,7 @@ naiveBayes.classify = function (item, def = 'none') {
   })
 
   return Object.keys(probs).find(
-    cat => cat !== best && probs[cat] * naiveBayes.getThreshold(best) > probs[best])
+    cat => cat !== best && probs[cat] * this.getThreshold(best) > probs[best])
      ? def : best
 }
 
