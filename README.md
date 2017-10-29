@@ -5,9 +5,8 @@ Data set was downloaded from http://www.dt.fee.unicamp.br/~tiago/smsspamcollecti
 
 It is also available on http://dcomp.sor.ufscar.br/talmeida/smsspamcollection/.
 
-To set up the filter you have to :
-  1. Download the repo by typing `git clone https://github.com/zrajnis/spam-filter`
-  2. Position into the directory and type `npm install`
+To set up the filter you all you have to do is download the repo, by typing  
+`git clone https://github.com/zrajnis/spam-filter`
 
 ## Usage:
 ```
@@ -18,7 +17,7 @@ const spamMsg = 'call fox tv for money today!'
 // Returns boolean
 filter.isSpam(spamMsg) //true
 
-//  Returns exact category ('good' or 'bad'), or 'none' if string can't be categorized
+// Returns exact category ('good' or 'bad'), or 'none' if string can't be categorized
 filter.classify(spamMsg) // 'bad'
 
 // Set threshold for a category

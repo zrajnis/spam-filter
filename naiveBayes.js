@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 const naiveBayes = require('./classifier')
 
 naiveBayes.classify = function (item, def = 'none') {
@@ -8,7 +6,7 @@ naiveBayes.classify = function (item, def = 'none') {
   const categories = this.getCategories()
   const probs = {}
 
-  _.each(categories, function (cat) {
+  categories.forEach(function (cat) {
     probs[cat] = naiveBayes.prob(item, cat)
 
     if (probs[cat] > max) {
@@ -17,15 +15,14 @@ naiveBayes.classify = function (item, def = 'none') {
     }
   })
 
-  return _.find(_.keys(probs), function (cat) {
-    return cat !== best && probs[cat] * naiveBayes.getThreshold(best) > probs[best]
-  }) ? def : best
+  return Object.keys(probs).find(
+    cat => cat !== best && probs[cat] * naiveBayes.getThreshold(best) > probs[best])
+     ? def : best
 }
 
 naiveBayes.docProb = function (item, cat) {
-  return _.reduce(this.getFeatures(item), function (result, feature) {
-    return result * naiveBayes.weightedProb(feature, cat)
-  }, 1)
+  return this.getFeatures(item).reduce(
+    (result, feature) => result * this.weightedProb(feature, cat), 1)
 }
 
 naiveBayes.prob = function (item, cat) {

@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const fs = require('fs')
 const path = require('path')
 
@@ -25,7 +24,7 @@ classifier.generate = function () {
   this.init()
 
   const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
-  const formatted = _.each(text, function (line) {
+  const formatted = text.forEach(function (line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
       classifier.train(splitLine[1], splitLine[0], false)
@@ -37,13 +36,11 @@ classifier.generate = function () {
 }
 
 classifier.getCategories = function () {
-  return _.keys(this.cc)
+  return Object.keys(this.cc)
 }
 
 classifier.getFeatures = function (text) {
-  const words = _.map(text.match(/[a-z0-9\-]+/gi), _.toLower)
-
-  return words
+  return text.match(/[a-z0-9\-]+/gi).map(word => word.toLowerCase())
 }
 
 classifier.getThreshold = function (cat) {
@@ -56,7 +53,7 @@ classifier.incCat = function (cat) {
 }
 
 classifier.init = function (newClassifier) {
-  return _.assign(classifier, {
+  return Object.assign(classifier, {
     fc: newClassifier ? newClassifier.fc : {},
     cc: newClassifier ? newClassifier.cc : {},
     thresholds:  newClassifier ? newClassifier.thresholds : {},
@@ -89,17 +86,14 @@ classifier.setThreshold = function (cat, t) {
 }
 
 classifier.totalCount = function () {
-  return _.reduce(this.cc, function (result, value) {
-    return result + value
-  }, 0)
+  return Object.keys(this.cc).map(key => this.cc[key]).reduce(
+    (result, value) => result + value, 0)
 }
 
 classifier.train = function (item, cat, saveFlag = true) {
-  _.map(this.getFeatures(item), function (feature) {
-    return classifier.incFtr(feature, cat)
-  })
-
+  this.getFeatures(item).map(feature => this.incFtr(feature, cat))
   this.incCat(cat)
+
   if (saveFlag) {
     this.save()
   }
@@ -107,19 +101,15 @@ classifier.train = function (item, cat, saveFlag = true) {
 }
 
 classifier.trainSet = function (arr) {
-  _.each(arr, function (arrItem) {
-    return classifier.train(arrItem[0], arrItem[1], false)
-  })
-
+  arr.forEach(arrItem => this.train(arrItem[0], arrItem[1], false))
   this.save()
   return this
 }
 
 classifier.weightedProb = function (ftr, cat, weight = 1, assumedProb = 0.5) {
   const basicProb = this.ftrProb(ftr, cat)
-  const totals = _.reduce(this.getCategories(), function (result, category) {
-    return result + classifier.ftrCount(ftr, category)
-  }, 0)
+  const totals = this.getCategories().reduce(
+    (result, category) => result + this.ftrCount(ftr, category), 0)
 
   return ((weight * assumedProb) + (totals * basicProb)) / (weight + totals)
 }

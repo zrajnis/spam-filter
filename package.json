@@ -1,8 +1,5 @@
 {
   "name": "spam-filter",
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
   "devDependencies": {
     "eslint": "^3.14.0",
     "eslint-config-airbnb-base": "^11.0.1",
