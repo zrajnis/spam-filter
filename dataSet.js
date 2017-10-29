@@ -21613,6 +21613,9 @@ module.exports = {
     "tiime": {
       "good": 1
     },
+    ":)": {
+      "good": 1
+    },
     "afternon": {
       "good": 1
     },

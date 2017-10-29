@@ -24,7 +24,7 @@ classifier.generate = function () {
   this.init()
 
   const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
-  const formatted = text.forEach(function (line) {
+  text.forEach(function (line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
       classifier.train(splitLine[1], splitLine[0], false)
@@ -40,7 +40,8 @@ classifier.getCategories = function () {
 }
 
 classifier.getFeatures = function (text) {
-  return text.match(/[a-z0-9\-]+/gi).map(word => word.toLowerCase())
+  return text.match(/[a-z0-9\-]+/gi) ?
+    text.match(/[a-z0-9\-]+/gi).map(word => word.toLowerCase()) : [text.trim()]
 }
 
 classifier.getThreshold = function (cat) {

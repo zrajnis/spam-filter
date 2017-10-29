@@ -5,7 +5,7 @@ Data set was downloaded from http://www.dt.fee.unicamp.br/~tiago/smsspamcollecti
 
 It is also available on http://dcomp.sor.ufscar.br/talmeida/smsspamcollection/.
 
-To set up the filter you all you have to do is download the repo, by typing  
+To set up the filter, all you have to do is download the repo, by typing    
 `git clone https://github.com/zrajnis/spam-filter`
 
 ## Usage:
