@@ -22,8 +22,8 @@ classifier.ftrProb = function (ftr, cat) {
 
 classifier.generate = function () {
   this.init()
-
   const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
+
   text.forEach(function (line) {
     const splitLine = line.split(/\t/)
     if (splitLine[0] && splitLine[1]) {
