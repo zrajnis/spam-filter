@@ -1,3 +1,3 @@
 const naiveBayes = require('./naiveBayes')
 
-return naiveBayes.generate()
+naiveBayes.generate()

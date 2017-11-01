@@ -1,1 +1,1 @@
-/* Classifier object is generated here */
+/* Classifier data is generated here. */
