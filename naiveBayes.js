@@ -22,7 +22,11 @@ naiveBayes.classify = function (item, def = 'none') {
 
 naiveBayes.docProb = function (item, cat) {
   return this.getFeatures(item).reduce(
-    (result, feature) => result * this.weightedProb(feature, cat), 1)
+    (result, ftr) => result * this.weightedProb(ftr, cat, this.ftrProb(ftr, cat)), 1)
+}
+
+naiveBayes.getThreshold = function (cat) {
+  return this.thresholds[cat] || 0.5
 }
 
 naiveBayes.prob = function (item, cat) {
@@ -30,6 +34,12 @@ naiveBayes.prob = function (item, cat) {
   const docProb = this.docProb(item, cat)
 
   return docProb * catProb
+}
+
+naiveBayes.setThreshold = function (cat, t) {
+  this.thresholds[cat] = t
+  this.save()
+  return this
 }
 
 module.exports = naiveBayes

@@ -4,7 +4,7 @@ const path = require('path')
 let classifier = require('./dataSet')
 
 classifier.catCount = function (cat) {
-  return this.cc[cat] ? this.cc[cat] : 0
+  return this.cc[cat] || 0
 }
 
 classifier.empty = function () {
@@ -26,6 +26,7 @@ classifier.generate = function () {
 
   text.forEach(function (line) {
     const splitLine = line.split(/\t/)
+
     if (splitLine[0] && splitLine[1]) {
       classifier.train(splitLine[1], splitLine[0], false)
     }
@@ -44,10 +45,6 @@ classifier.getFeatures = function (text) {
     text.match(/[a-z0-9\-]+/gi).map(word => word.toLowerCase()) : [text.trim()]
 }
 
-classifier.getThreshold = function (cat) {
-  return this.thresholds[cat] ? this.thresholds[cat] : 1
-}
-
 classifier.incCat = function (cat) {
   this.cc[cat] = this.cc[cat] ? this.cc[cat] + 1 : 1
   return this
@@ -58,6 +55,7 @@ classifier.init = function (newClassifier) {
     fc: newClassifier ? newClassifier.fc : {},
     cc: newClassifier ? newClassifier.cc : {},
     thresholds:  newClassifier ? newClassifier.thresholds : {},
+    minimums: newClassifier ? newClassifier.minimums : {},
   })
 }
 
@@ -81,11 +79,6 @@ classifier.save = function () {
   }
 }
 
-classifier.setThreshold = function (cat, t) {
-  this.thresholds[cat] = t
-  return this
-}
-
 classifier.totalCount = function () {
   return Object.keys(this.cc).map(key => this.cc[key]).reduce(
     (result, value) => result + value, 0)
@@ -107,8 +100,7 @@ classifier.trainSet = function (arr) {
   return this
 }
 
-classifier.weightedProb = function (ftr, cat, weight = 1, assumedProb = 0.5) {
-  const basicProb = this.ftrProb(ftr, cat)
+classifier.weightedProb = function (ftr, cat, basicProb, weight = 1, assumedProb = 0.5) {
   const totals = this.getCategories().reduce(
     (result, category) => result + this.ftrCount(ftr, category), 0)
 

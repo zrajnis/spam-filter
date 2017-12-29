@@ -1,3 +1,3 @@
-const naiveBayes = require('./naiveBayes')
+const classifier = require('./classifier')
 
-naiveBayes.generate()
+classifier.generate()
