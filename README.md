@@ -4,7 +4,7 @@ This spam filter lets you choose between using naive Bayes classifier or Fisher'
 Data set was downloaded from http://www.dt.fee.unicamp.br/~tiago/smsspamcollection/.  
 It is also available on http://dcomp.sor.ufscar.br/talmeida/smsspamcollection/.
 
-To set up the filter, all you have to do is install the module, by typing:
+To set up the filter, all you have to do is install the module, by typing:  
 `npm install spam-filter`
 
 ## Usage:
@@ -54,7 +54,7 @@ Unsaved changes to the classifier object will disappear once the program that us
 </br>
 </br>
 </br>
-## Examples
+## Examples:
 
 Overriding the data set with your own:
 ```
