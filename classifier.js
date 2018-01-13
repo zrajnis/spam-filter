@@ -22,6 +22,7 @@ classifier.ftrProb = function (ftr, cat) {
 
 classifier.generate = function () {
   this.init()
+
   const text = fs.readFileSync(path.resolve(__dirname, 'dataSet.txt'), 'utf-8').split(/\n/)
 
   text.forEach(function (line) {
@@ -31,7 +32,6 @@ classifier.generate = function () {
       classifier.train(splitLine[1], splitLine[0])
     }
   })
-
   return this
 }
 
