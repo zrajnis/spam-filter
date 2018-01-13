@@ -38,7 +38,6 @@ naiveBayes.prob = function (item, cat) {
 
 naiveBayes.setThreshold = function (cat, t) {
   this.thresholds[cat] = t
-  this.save()
   return this
 }
 

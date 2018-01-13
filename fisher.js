@@ -58,7 +58,6 @@ fisher.invChi2 = function (chi, df) {
 
 fisher.setMinimum = function (cat, min) {
   this.minimums[cat] = min
-  this.save()
   return this
 }
 

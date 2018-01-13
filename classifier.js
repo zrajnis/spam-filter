@@ -8,7 +8,7 @@ classifier.catCount = function (cat) {
 }
 
 classifier.empty = function () {
-  this.init().save()
+  this.init()
   return this
 }
 
@@ -28,11 +28,10 @@ classifier.generate = function () {
     const splitLine = line.split(/\t/)
 
     if (splitLine[0] && splitLine[1]) {
-      classifier.train(splitLine[1], splitLine[0], false)
+      classifier.train(splitLine[1], splitLine[0])
     }
   })
 
-  this.save()
   return this
 }
 
@@ -84,19 +83,9 @@ classifier.totalCount = function () {
     (result, value) => result + value, 0)
 }
 
-classifier.train = function (item, cat, saveFlag = true) {
+classifier.train = function (item, cat) {
   this.getFeatures(item).map(feature => this.incFtr(feature, cat))
   this.incCat(cat)
-
-  if (saveFlag) {
-    this.save()
-  }
-  return this
-}
-
-classifier.trainSet = function (arr) {
-  arr.forEach(arrItem => this.train(arrItem[0], arrItem[1], false))
-  this.save()
   return this
 }
 
