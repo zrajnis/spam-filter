@@ -1,3 +1,3 @@
 const classifier = require('./classifier')
 
-classifier.generate()
+classifier.generate().save()
