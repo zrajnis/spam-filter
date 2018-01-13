@@ -1,7 +1,7 @@
 # Spam filter
 This spam filter lets you choose between using naive Bayes classifier or Fisher's method.
 
-Data set was downloaded from http://www.dt.fee.unicamp.br/~tiago/smsspamcollection/.
+Data set was downloaded from http://www.dt.fee.unicamp.br/~tiago/smsspamcollection/.  
 It is also available on http://dcomp.sor.ufscar.br/talmeida/smsspamcollection/.
 
 To set up the filter, all you have to do is install the module, by typing:
@@ -15,7 +15,8 @@ Filter is initialized in a following way:
 const filter = require('spam-filter')(methodName)
 ```
 **methodName** can be *'naiveBayes'*, *'fisher'* or empty in which case naive Bayes classifier will be used.
-
+</br>
+</br>
 ### Naive Bayes specific methods
 Naive Bayes classifier provides option to set and get thresholds for categories.
 ```
@@ -23,33 +24,36 @@ filter.setThreshold(category, 2)
 filter.getThreshold(category)
 ```
 
-### Fisher's method specific methods
+### </br>Fisher's method specific methods
 Fisher's method provides option to set and get minimum values for categories.
 ```
 filter.setMinimum(category, 0.7)
 filter.getMinimum(category)
 ```
 
-**category** is a string, default categories are *'good'* and *'bad'*.
+**category** is a string, default categories are *'good'* and *'bad'*.  
 Custom categories are possible, but not recommended.
-
+</br>
+</br>
 ### Common methods
-Filter provides a set of methods that are available regardless of which filtering method is being used.
-Those are:
+Filter provides a set of methods that are available regardless of which filtering method is being used.  
+Those are:  
 `filter.isSpam(spamMsg)` - returns a boolean. Only works with default categories.
 
 `filter.classify(spamMsg)` - returns the category, or *'none'* if string can't be categorized.
 
-`filter.generate()` - generates a classifier object with 5500 categorized text messages.
+`filter.generate()` - generates a classifier object with 5500 categorized text messages.  
 Generated object exists by default when module is installed.
 
 `filter.empty()` - empties the classifier object.
 
 `filter.train(spamMsg, category)` - trains the classifier, use category *'good'* for non-spam and *'bad'* for spam.
 
-`filter.save()` - saves the state of the classifier object to the *dataSet.js* file.
+`filter.save()` - saves the state of the classifier object to the *dataSet.js* file.  
 Unsaved changes to the classifier object will disappear once the program that uses the filter ends.
-
+</br>
+</br>
+</br>
 ## Examples
 
 Overriding the data set with your own:
